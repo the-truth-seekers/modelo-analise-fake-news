@@ -6,19 +6,10 @@ class NoticiaService:
         pass
 
     @staticmethod
-    def inserir_resultado_noticia(resultado, link, fonte=None, titulo=None):
-        query = 'EXEC SP_INSERIR_RESULTADO_ANALISE ?, ?'
+    def inserir_resultado_noticia(resultado, link, fonte='', titulo=''):
+        query = 'EXEC SP_INSERIR_RESULTADO_ANALISE ?, ?, ?, ?'
 
-        args = [resultado, link]
-
-        if fonte is not None:
-            args.append(fonte)
-
-        if titulo is not None and fonte is not None:
-            args.append(titulo)
-        elif titulo is not None and fonte is None:
-            args.append('')
-            args.append(titulo)
+        args = [resultado, link, fonte, titulo]
 
         bd_aux = BdAux()
         bd_aux.executar_query(query, args)
