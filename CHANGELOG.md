@@ -1,3 +1,9 @@
+## 0.0.3 (2023-08-01)
+
+### Refactor
+
+- organização dos modelos
+
 ## 0.0.2 (2023-08-01)
 
 ### Fix
