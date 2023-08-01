@@ -6,8 +6,8 @@ import joblib
 
 
 # Modelos
-modelo = joblib.load('random_forest_model_news.pkl')
-modelo_vec = joblib.load('count_vectorizer_model_news.pkl')
+modelo = joblib.load('models/random_forest_model_news.pkl')
+modelo_vec = joblib.load('models/count_vectorizer_model_news.pkl')
 
 
 def predict_value(valor):
