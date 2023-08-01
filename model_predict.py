@@ -43,6 +43,7 @@ def vectorize_value(valor):
     valor_vec = modelo_vec.transform([valor])
     return valor_vec
 
+
 s3 = boto3.client('s3')
 bucket_name = 'seekers-bucket'
 file_key = 'extracao/extracao.csv'
@@ -51,6 +52,7 @@ local_filename = 'extracao.csv'
 s3.download_file(bucket_name, file_key, local_filename)
 
 df = pd.read_csv(local_filename)
+
 df['texto_noticia'] = df['texto_noticia'].str.lower()
 df['texto_tratado'] = df['texto_noticia'].apply(clean_text)
 df['texto_vetorizado'] = df['texto_tratado'].apply(vectorize_value)
