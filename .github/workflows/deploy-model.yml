@@ -1,7 +1,7 @@
 name: Esteira de deploy do Seekers
 on: 
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 defaults:
   run:
