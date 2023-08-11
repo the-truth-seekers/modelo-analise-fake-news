@@ -37,6 +37,6 @@ df['resultado'] = df['texto_vetorizado'].apply(predict_value)[0][0]
 ns = NoticiaService()
 
 for index, row in df.iterrows():
-    resultado = row['resultado']
+    resultado = row['resultado'] == 'true'
     link = row['link']
     ns.inserir_resultado_noticia(resultado, link)
