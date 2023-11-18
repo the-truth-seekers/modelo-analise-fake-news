@@ -1,9 +1,9 @@
 from services.noticia_service import NoticiaService
-from utls.text_help import clean_text
 from keras.models import load_model
 from aws.s3_aux import S3Aux
 import pandas as pd
 from joblib import load
+import numpy as np
 import spacy
 import re
 
@@ -20,7 +20,7 @@ def lematize_sentence(sentence):
 
 
 def limpar_texto(value):
-    value = re.sub(r"(#\S+)|(@\S+)|(http\S+)", "", value)
+    value = re.sub(r"(#\S+)|(@\S+)|(http\S+)", "", str(value))
     for char in ['.', ';', '-', ':', ')']:
         value = value.replace(char, '')
     return value.strip().lower()
@@ -43,10 +43,8 @@ s3_aux.download_file(bucket_name, file_key, local_filename)
 
 df = pd.read_csv(local_filename)
 
-df['texto_noticia'] = df['texto_noticia'].str.lower()
-df['texto_tratado'] = df['texto_noticia'].apply(clean_text)
-df['texto_vetorizado'] = df['texto_tratado'].apply(limpar_texto)
-df['lematize_txt'] = df['texto_vetorizado'].apply(lematize_sentence)
+df['texto_noticia'] = df['texto_noticia'].apply(limpar_texto)
+df['lematize_txt'] = df['texto_noticia'].apply(lematize_sentence)
 df['seq'] = df['lematize_txt'].apply(texts_to_sequences)
 df['padded_seq'] = df['seq'].apply(pad_seq)
 df['resultado'] = df['padded_seq'].apply(modelo_predicao_rnn.predict)
@@ -56,4 +54,10 @@ ns = NoticiaService()
 for index, row in df.iterrows():
     resultado = 1 if row['resultado'][0][0] >= 0.5 else 0
     link = row['link']
-    ns.inserir_resultado_noticia(resultado, link)
+    fonte = row['fonte']
+    titulo = row['titulo']
+
+    if type(titulo) != str:
+        continue
+
+    ns.inserir_resultado_noticia(resultado, link, fonte, titulo)
