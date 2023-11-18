@@ -1,3 +1,13 @@
+## 0.2.0 (2023-11-18)
+
+### Feat
+
+- incluindo campos de fonte e titulo
+
+### Fix
+
+- requirements
+
 ## 0.1.0 (2023-11-17)
 
 ### Feat
